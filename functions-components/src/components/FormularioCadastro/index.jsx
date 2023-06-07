@@ -4,15 +4,19 @@ import TextField from "@mui/material/TextField";
 import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
-export default function FormularioCadastro() {
+export default function FormularioCadastro({ aoEnviar }) {
     const [nome, setNome] = useState("");
     const [sobrenome, setSobreNome] = useState("");
+    const [cpf, setCpf] = useState("");
+    const [promocoes, setPromocoes] = useState(true);
+    const [novidades, setNovidade] = useState(false);
+    const [erros, setErros] = useState({ cpf: { valido: false, texto: "" } });
 
     return (
         <form
             onSubmit={(event) => {
                 event.preventDefault();
-                console.log(nome, sobrenome);
+                aoEnviar({ nome, sobrenome, cpf, promocoes, novidades });
             }}
         >
             <TextField
@@ -45,6 +49,20 @@ export default function FormularioCadastro() {
                 margin="normal"
             />
             <TextField
+                value={cpf}
+                onChange={(event) => {
+                    setCpf(event.target.value);
+                }}
+                onBlur={(event) => {
+                    setErros({
+                        cpf: {
+                            valido: true,
+                            texto: "CPF deve ter 11 dígitos",
+                        },
+                    });
+                }}
+                error={erros.cpf.valido}
+                helperText={erros.cpf.texto}
                 id="CPF"
                 label="CPF"
                 color="secondary"
@@ -55,8 +73,11 @@ export default function FormularioCadastro() {
             <FormControlLabel
                 control={
                     <Switch
+                        checked={promocoes}
+                        onChange={(event) => {
+                            setPromocoes(event.target.checked);
+                        }}
                         name="promocoes"
-                        defaultChecked
                         color="primary"
                     ></Switch>
                 }
@@ -66,8 +87,11 @@ export default function FormularioCadastro() {
             <FormControlLabel
                 control={
                     <Switch
+                        checked={novidades}
+                        onChange={(event) => {
+                            setNovidade(event.target.checked);
+                        }}
                         name="novidades"
-                        defaultChecked
                         color="primary"
                     ></Switch>
                 }
