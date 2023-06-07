@@ -5,9 +5,23 @@ import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
 export default function FormularioCadastro() {
+    let nome = "";
     return (
-        <form>
+        <form
+            onSubmit={(event) => {
+                event.preventDefault();
+                console.log(nome);
+            }}
+        >
             <TextField
+                value={nome}
+                onChange={(event) => {
+                    console.log(event.target.value);
+                    nome = event.target.value;
+                    if (nome.length > 3) {
+                        nome = nome.substring(0, 3);
+                    }
+                }}
                 id="nome"
                 label="Nome"
                 color="secondary"
