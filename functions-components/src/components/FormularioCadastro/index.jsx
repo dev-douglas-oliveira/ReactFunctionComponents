@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
-export default function FormularioCadastro({ aoEnviar }) {
+export default function FormularioCadastro({ aoEnviar, validarCPF }) {
     const [nome, setNome] = useState("");
     const [sobrenome, setSobreNome] = useState("");
     const [cpf, setCpf] = useState("");
@@ -54,11 +54,9 @@ export default function FormularioCadastro({ aoEnviar }) {
                     setCpf(event.target.value);
                 }}
                 onBlur={(event) => {
+                    const ehValido = validarCPF(cpf);
                     setErros({
-                        cpf: {
-                            valido: true,
-                            texto: "CPF deve ter 11 dígitos",
-                        },
+                        cpf: ehValido,
                     });
                 }}
                 error={erros.cpf.valido}
