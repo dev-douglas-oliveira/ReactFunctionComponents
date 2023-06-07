@@ -1,26 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
 export default function FormularioCadastro() {
-    let nome = "";
+    const [nome, setNome] = useState("");
+    const [sobrenome, setSobreNome] = useState("");
+
     return (
         <form
             onSubmit={(event) => {
                 event.preventDefault();
-                console.log(nome);
+                console.log(nome, sobrenome);
             }}
         >
             <TextField
                 value={nome}
                 onChange={(event) => {
-                    console.log(event.target.value);
-                    nome = event.target.value;
-                    if (nome.length > 3) {
-                        nome = nome.substring(0, 3);
+                    // variavel tempNome adicionada para resolver o problema de não permitir excluir o texto digitado
+                    let tempNome = event.target.value;
+                    if (tempNome.length >= 7) {
+                        tempNome = tempNome.substring(0, 7);
                     }
+                    setNome(tempNome);
                 }}
                 id="nome"
                 label="Nome"
@@ -30,6 +33,10 @@ export default function FormularioCadastro() {
                 margin="normal"
             />
             <TextField
+                value={sobrenome}
+                onChange={(event) => {
+                    setSobreNome(event.target.value);
+                }}
                 id="sobrenome"
                 label="Sobrenome"
                 color="secondary"
