@@ -4,24 +4,27 @@ import DadosUsuario from "./DadosUsuario";
 import DadosEntrega from "./DadosEntrega";
 
 export default function FormularioCadastro({ aoEnviar, validarCPF }) {
-    const [etapaAtual, setEtapaAtual] = useState(1);
-    return <Fragment>{formularioAtual(etapaAtual)}</Fragment>;
+    const [etapaAtual, setEtapaAtual] = useState(0);
 
+    //FUNÇÃO QUE AVANÇA PARA A PRÓXIMA ETAPA
+    function proximo() {
+        setEtapaAtual(etapaAtual + 1);
+    }
+
+    //FUNÇÃO QUE PERMITE ALTERAR O FORMULÁRIO ATUAL
     function formularioAtual(etapa) {
         switch (etapa) {
             case 0:
-                return <DadosUsuario />;
+                return <DadosUsuario aoEnviar={proximo} />;
             case 1:
                 return (
-                    <DadosPessoais
-                        aoEnviar={aoEnviar}
-                        validarCPF={validarCPF}
-                    />
+                    <DadosPessoais aoEnviar={proximo} validarCPF={validarCPF} />
                 );
             case 2:
-                return <DadosEntrega />;
+                return <DadosEntrega aoEnviar={aoEnviar} />;
             default:
                 return <DadosUsuario />;
         }
     }
+    return <Fragment>{formularioAtual(etapaAtual)}</Fragment>;
 }
