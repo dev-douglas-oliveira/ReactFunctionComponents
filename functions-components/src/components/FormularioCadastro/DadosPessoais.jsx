@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
-export default function FormularioCadastro({ aoEnviar, validarCPF }) {
+export default function DadosPessoais({ aoEnviar, validarCPF }) {
     const [nome, setNome] = useState("");
     const [sobrenome, setSobreNome] = useState("");
     const [cpf, setCpf] = useState("");
@@ -53,7 +53,7 @@ export default function FormularioCadastro({ aoEnviar, validarCPF }) {
                 onChange={(event) => {
                     setCpf(event.target.value);
                 }}
-                onBlur={(event) => {
+                onBlur={(cpf) => {
                     const ehValido = validarCPF(cpf);
                     setErros({
                         cpf: ehValido,
@@ -96,7 +96,7 @@ export default function FormularioCadastro({ aoEnviar, validarCPF }) {
                 label="Novidades"
             ></FormControlLabel>
 
-            <Button variant="contained" type="submit">
+            <Button variant="contained" color="primary" type="submit">
                 Cadastrar
             </Button>
         </form>
