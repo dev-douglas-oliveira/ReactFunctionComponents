@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import ValidacoesCadastro from "../../contexts/ValidacoesCadastro";
 
-export default function DadosPessoais({ aoEnviar, validarCPF }) {
+export default function DadosPessoais({ aoEnviar }) {
     const [nome, setNome] = useState("");
     const [sobrenome, setSobreNome] = useState("");
     const [cpf, setCpf] = useState("");
@@ -12,11 +13,33 @@ export default function DadosPessoais({ aoEnviar, validarCPF }) {
     const [novidades, setNovidade] = useState(false);
     const [erros, setErros] = useState({ cpf: { valido: false, texto: "" } });
 
+    const validacoes = useContext(ValidacoesCadastro);
+
+    //FUNÇÃO PARA VALIDAR OS CAMPOS
+    function validarCampos(event) {
+        const { name, value } = event.target;
+        const novoEstado = { ...erros };
+        novoEstado[name] = validacoes[name](value);
+        setErros(novoEstado);
+    }
+
+    //FUNÇÃO PARA VERIFICAR SE PODE ENVIAR
+    function possoEnviar() {
+        for (let campo in erros) {
+            if (!erros[campo].valido) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     return (
         <form
             onSubmit={(event) => {
                 event.preventDefault();
-                aoEnviar({ nome, sobrenome, cpf, promocoes, novidades });
+                if (possoEnviar()) {
+                    aoEnviar({ nome, sobrenome, cpf, promocoes, novidades });
+                }
             }}
         >
             <TextField
@@ -30,6 +53,7 @@ export default function DadosPessoais({ aoEnviar, validarCPF }) {
                     setNome(tempNome);
                 }}
                 id="nome"
+                name="nome"
                 label="Nome"
                 color="secondary"
                 variant="outlined"
@@ -42,6 +66,7 @@ export default function DadosPessoais({ aoEnviar, validarCPF }) {
                     setSobreNome(event.target.value);
                 }}
                 id="sobrenome"
+                name="sobrenome"
                 label="Sobrenome"
                 color="secondary"
                 variant="outlined"
@@ -53,15 +78,11 @@ export default function DadosPessoais({ aoEnviar, validarCPF }) {
                 onChange={(event) => {
                     setCpf(event.target.value);
                 }}
-                onBlur={(cpf) => {
-                    const ehValido = validarCPF(cpf);
-                    setErros({
-                        cpf: ehValido,
-                    });
-                }}
+                onBlur={validarCampos}
                 error={erros.cpf.valido}
                 helperText={erros.cpf.texto}
                 id="CPF"
+                name="cpf"
                 label="CPF"
                 color="secondary"
                 variant="outlined"
@@ -97,7 +118,7 @@ export default function DadosPessoais({ aoEnviar, validarCPF }) {
             ></FormControlLabel>
 
             <Button variant="contained" color="primary" type="submit">
-                Cadastrar
+                Próximo
             </Button>
         </form>
     );

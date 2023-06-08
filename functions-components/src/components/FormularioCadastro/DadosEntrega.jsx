@@ -22,7 +22,7 @@ export default function DadosEntrega({ aoEnviar }) {
                     setCep(event.target.value);
                 }}
                 id="cep"
-                label="cep"
+                label="CEP"
                 type="number"
                 variant="outlined"
                 margin="normal"
@@ -33,7 +33,7 @@ export default function DadosEntrega({ aoEnviar }) {
                     setEndereco(event.target.value);
                 }}
                 id="endereco"
-                label="endereco"
+                label="Endereco"
                 type="text"
                 variant="outlined"
                 fullWidth
@@ -45,21 +45,21 @@ export default function DadosEntrega({ aoEnviar }) {
                     setNumero(event.target.value);
                 }}
                 id="numero"
-                label="numero"
+                label="Numero"
                 type="number"
                 variant="outlined"
                 margin="normal"
             />
             <TextField
                 id="estado"
-                label="estado"
+                label="Estado"
                 type="text"
                 variant="outlined"
                 margin="normal"
             />
             <TextField
                 id="cidade"
-                label="cidade"
+                label="Cidade"
                 type="text"
                 variant="outlined"
                 margin="normal"
